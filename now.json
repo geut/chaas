@@ -1,0 +1,9 @@
+{
+  "alias": "chaas",
+  "env": {
+    "APP_ID": "@geut-chaas-appid",
+    "NODE_ENV": "production",
+    "PRIVATE_KEY": "@geut-chaas-pk",
+    "WEBHOOK_SECRET": "@geut-chaas-whsecret"
+  }
+}
