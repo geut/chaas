@@ -1,4 +1,5 @@
 {
+  "name": "chaas",
   "alias": "chaas",
   "version": 2,
   "env": {
@@ -7,5 +8,5 @@
     "PRIVATE_KEY": "@geut-chaas-pk",
     "WEBHOOK_SECRET": "@geut-chaas-whsecret"
   },
-  "builds": [{ "src": "index.js", "use": "@now/node" }]
+  "builds": [{ "src": "handler.js", "use": "@now/node" }]
 }
