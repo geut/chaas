@@ -43,7 +43,7 @@ module.exports = app => {
       };
     }
 
-    const result = found ? 'success' : 'neutral';
+    const result = found ? 'success √' : 'neutral';
 
     return context.github.checks.create(context.repo({
       name: 'Chaas by GEUT',
