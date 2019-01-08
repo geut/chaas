@@ -1,9 +1,11 @@
 {
   "alias": "chaas",
+  "version": 2,
   "env": {
     "APP_ID": "@geut-chaas-appid",
     "NODE_ENV": "production",
     "PRIVATE_KEY": "@geut-chaas-pk",
     "WEBHOOK_SECRET": "@geut-chaas-whsecret"
-  }
+  },
+  "builds": [{ "src": "index.js", "use": "@now/node" }]
 }
