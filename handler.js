@@ -1,3 +1,4 @@
-const { serverless } = require('@probot/serverless-lambda')
-const appFn = require('./')
-module.exports.probot = serverless(appFn)
+
+const serverless = require('probot-serverless-now')
+const appFn = require('./index')
+module.exports = serverless(appFn)

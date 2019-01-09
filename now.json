@@ -8,5 +8,10 @@
     "PRIVATE_KEY": "@geut-chaas-pk",
     "WEBHOOK_SECRET": "@geut-chaas-whsecret"
   },
-  "builds": [{ "src": "handler.js", "use": "@now/node" }]
+  "builds": [
+    { "src": "handler.js", "use": "@now/node" }
+  ],
+  "routes": [
+    { "src": "/",  "methods": ["POST", "GET"], "dest": "/handler.js" }
+  ]
 }
