@@ -19,13 +19,15 @@
     "start": "probot run ./index.js",
     "lint": "standard --fix",
     "test": "jest && standard",
-    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+    "test:watch": "jest --watch --notify --notifyMode=change --coverage",
+    "version": "chan release ${npm_package_version} && git add ."
   },
   "dependencies": {
     "@probot/serverless-lambda": "^0.2.0",
     "probot": "^7.2.0"
   },
   "devDependencies": {
+    "@geut/chan": "^1.3.0",
     "jest": "^22.4.3",
     "nock": "^10.0.0",
     "nodemon": "^1.17.2",
