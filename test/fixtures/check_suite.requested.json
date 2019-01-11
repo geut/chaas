@@ -10,31 +10,7 @@
     "url": "https://api.github.com/repos/hiimbex/testing-things/check-suites/17597619",
     "before": "f5c621190066c1b2333b3e2ff01742b6696be443",
     "after": "50e5628cda538bcbb6f3fec3edebe4bb5afb3891",
-    "pull_requests": [
-      {
-        "url": "https://api.github.com/repos/hiimbex/testing-things/pulls/121",
-        "id": 220762830,
-        "number": 121,
-        "head": {
-          "ref": "hiimbex-patch-46",
-          "sha": "50e5628cda538bcbb6f3fec3edebe4bb5afb3891",
-          "repo": {
-            "id": 95162387,
-            "url": "https://api.github.com/repos/hiimbex/testing-things",
-            "name": "testing-things"
-          }
-        },
-        "base": {
-          "ref": "master",
-          "sha": "43fd9749bea5ea6de51bdf01b3b1e7264cbe83bc",
-          "repo": {
-            "id": 95162387,
-            "url": "https://api.github.com/repos/hiimbex/testing-things",
-            "name": "testing-things"
-          }
-        }
-      }
-    ],
+    "pull_requests": [],
     "app": {
       "id": 18586,
       "node_id": "MDM6QXBwMTg1ODY=",
@@ -70,9 +46,9 @@
     "latest_check_runs_count": 0,
     "check_runs_url": "https://api.github.com/repos/hiimbex/testing-things/check-suites/17597619/check-runs",
     "head_commit": {
-      "id": "50e5628cda538bcbb6f3fec3edebe4bb5afb3891",
+      "id": "09cfdadb97113c80ffd60c43af90da049a626a05",
       "tree_id": "1d785b00b8f8163d656ffedddcb773a7077592f4",
-      "message": "Update README.md",
+      "message": "Update CHANGELOG.md",
       "timestamp": "2018-10-05T16:53:19Z",
       "author": {
         "name": "Bex Warner",
