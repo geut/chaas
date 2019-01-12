@@ -4,6 +4,7 @@
 
 __A GitHub App built with [Probot](https://github.com/probot/probot)__
 
+![chaas logo](./emblem/chaas_logo.png)
 
 ## Development 
 
