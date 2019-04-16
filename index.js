@@ -23,6 +23,7 @@ module.exports = app => {
 
   async function check (context) {
     // Do stuff
+    /* eslint-disable camelcase */
     const { head_branch, head_sha, head_commit: { id } = {} } = context.payload.check_suite
     const { name, owner } = context.payload.repository
     // Probot API note: context.repo() => {username: 'hiimbex', repo: 'testing-things'}
@@ -40,7 +41,7 @@ module.exports = app => {
       return
     }
     const { files } = commit.data
-    const found = files.find(({filename, status}) => (filename.toLowerCase() === CHANGELOG && (VALID_STATUS.includes(status))))
+    const found = files.find(({ filename, status }) => (filename.toLowerCase() === CHANGELOG && (VALID_STATUS.includes(status))))
     const result = found ? SUCCESS : NEUTRAL
 
     return context.github.checks.create(context.repo({
