@@ -22,15 +22,15 @@
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
-    "probot": "^7.2.0",
-    "probot-serverless-now": "^0.2.1"
+    "probot": "^9.2.5",
+    "probot-serverless-now": "^2.0.0"
   },
   "devDependencies": {
-    "jest": "^22.4.3",
-    "nock": "^10.0.0",
-    "nodemon": "^1.17.2",
-    "smee-client": "^1.0.2",
-    "standard": "^10.0.3"
+    "jest": "^24.7.1",
+    "nock": "^10.0.6",
+    "nodemon": "^1.18.11",
+    "smee-client": "^1.1.0",
+    "standard": "^12.0.1"
   },
   "engines": {
     "node": ">= 8.3.0"
