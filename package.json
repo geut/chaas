@@ -23,6 +23,9 @@
     "version": "chan release ${npm_package_version} && git add ."
   },
   "dependencies": {
+    "js-yaml": "^3.13.1",
+    "minimatch": "^3.0.4",
+    "multimatch": "^3.0.0",
     "probot": "^9.2.5",
     "probot-serverless-now": "^2.0.0"
   },
