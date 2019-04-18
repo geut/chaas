@@ -1,6 +1,6 @@
 const nock = require('nock')
 // Requiring our app implementation
-const myProbotApp = require('..')
+const myProbotApp = require('../src')
 const { Application } = require('probot')
 // Requiring our fixtures
 const checkSuitePayload = require('./fixtures/check_suite.requested')
@@ -33,36 +33,70 @@ describe('chaas', () => {
     app.auth = () => Promise.resolve(github)
   })
 
-  test('Run a successful suite run request (gets the changelog and validates status)', async () => {
-    nock('https://api.github.com')
-      .post('/app/installations/2/access_tokens')
-      .reply(200, { token: 'test' })
+  describe('with default configuration', () => {
+    beforeEach(() => {
+      const error = new Error('Not Found')
+      error.code = 404
 
-    github.repos.getCommit = jest.fn().mockReturnValueOnce(
-      Promise.resolve({ data: commitWithChangelog })
-    )
+      github.repos.getContent = jest.fn().mockReturnValueOnce(
+        Promise.reject(error)
+      )
+    })
 
-    // Receive a webhook event
-    await app.receive({ name: 'check_suite', payload: checkSuitePayload })
+    test('Run a successful suite run request (gets the changelog and validates status)', async () => {
+      nock('https://api.github.com')
+        .post('/app/installations/2/access_tokens')
+        .reply(200, { token: 'test' })
 
-    expect(github.checks.create).toBeCalledWith(
-      expect.objectContaining(checkRunSuccess)
-    )
+      github.repos.getCommit = jest.fn().mockReturnValueOnce(
+        Promise.resolve({ data: commitWithChangelog })
+      )
+
+      // Receive a webhook event
+      await app.receive({ name: 'check_suite', payload: checkSuitePayload })
+
+      expect(github.checks.create).toBeCalledWith(
+        expect.objectContaining(checkRunSuccess)
+      )
+    })
+    test('Run a neutral suite request (changelog not found)', async () => {
+      nock('https://api.github.com')
+        .post('/app/installations/2/access_tokens')
+        .reply(200, { token: 'test' })
+
+      github.repos.getCommit = jest.fn().mockReturnValueOnce(
+        Promise.resolve({ data: commitWithoutChangelog })
+      )
+
+      // Receive a webhook event
+      await app.receive({ name: 'check_suite', payload: checkSuitePayload })
+
+      expect(github.checks.create).toBeCalledWith(
+        expect.objectContaining(checkRunNeutral)
+      )
+    })
   })
-  test('Run a neutral suite request (changelog not found)', async () => {
-    nock('https://api.github.com')
-      .post('/app/installations/2/access_tokens')
-      .reply(200, { token: 'test' })
 
-    github.repos.getCommit = jest.fn().mockReturnValueOnce(
-      Promise.resolve({ data: commitWithoutChangelog })
-    )
+  describe('with .chaas.yml config', () => {
+    test('all files in commit ignored then should return NEUTRAL.', async () => {
+      github.repos.getContent = jest.fn().mockReturnValueOnce(
+        Promise.resolve({ data: { content: Buffer.from('ignore: ["*.js", "*.md"]', 'binary').toString('base64') } })
+      )
 
-    // Receive a webhook event
-    await app.receive({ name: 'check_suite', payload: checkSuitePayload })
+      nock('https://api.github.com')
+        .post('/app/installations/2/access_tokens')
+        .reply(200, { token: 'test' })
 
-    expect(github.checks.create).toBeCalledWith(
-      expect.objectContaining(checkRunNeutral)
-    )
+      github.repos.getCommit = jest.fn().mockReturnValueOnce(
+        Promise.resolve({ data: commitWithChangelog })
+      )
+
+      // Receive a webhook event
+      await app.receive({ name: 'check_suite', payload: checkSuitePayload })
+
+      expect(github.checks.create).toBeCalledWith(
+        expect.objectContaining(checkRunNeutral)
+      )
+    })
   })
 })

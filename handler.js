@@ -1,4 +1,4 @@
 
 const serverless = require('probot-serverless-now')
-const appFn = require('./index')
+const appFn = require('./src/index')
 module.exports = serverless(appFn)

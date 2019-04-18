@@ -83,6 +83,18 @@
   },
   "files": [
     {
+      "sha": "bd97488d29849e537fa638c4922421e22b30e84f",
+      "filename": "packages/baz/index.js",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/geut/lerna-travis-demo/blob/4327de0482693fce8357221aa3e61c6a2bf8a60d/packages/baz/index.js",
+      "raw_url": "https://github.com/geut/lerna-travis-demo/raw/4327de0482693fce8357221aa3e61c6a2bf8a60d/packages/baz/index.js",
+      "contents_url": "https://api.github.com/repos/geut/lerna-travis-demo/contents/packages/baz/index.js?ref=4327de0482693fce8357221aa3e61c6a2bf8a60d",
+      "patch": "@@ -2,4 +2,5 @@ const foo = require('@geut/foo')\n \n console.log('geut: baz')\n console.log('geut: code with opinions')\n+// run foo! run\n foo()"
+    },    
+    {
       "sha": "42c30493ed5fb9342f641ceb0aad73f8cc0c3f7e",
       "filename": "CHANGELOG.md",
       "status": "modified",
