@@ -5,8 +5,8 @@
   "status": "completed",
   "conclusion": "success",
   "output": {
-    "title": "Chaas check",
-    "summary": ":+1: Great! A changelog file has been found and it has been updated",
+    "title": "Chaas Check",
+    "summary": ":+1: Great! A CHANGELOG file has been found and it has been updated",
     "text": "No further action is required."
   }
 }
