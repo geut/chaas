@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Configuration with `.chaas.yml`
 - Ignore files config `ignore`. Run with `NEUTRAL` if commit set contains only files that are ignored.
+- Return `FAILED` if no changelog is present and files are not ignored.
 
 ## [1.0.0] - 2019-01-08
 ### Added

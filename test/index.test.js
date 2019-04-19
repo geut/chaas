@@ -6,6 +6,7 @@ const { Application } = require('probot')
 const checkSuitePayload = require('./fixtures/check_suite.requested')
 const checkRunSuccess = require('./fixtures/check_run.created')
 const checkRunNeutral = require('./fixtures/check_run.neutral')
+const checkRunFailed = require('./fixtures/check_run.failed')
 const commitWithChangelog = require('./fixtures/commit_with_changelog')
 const commitWithoutChangelog = require('./fixtures/commit_without_changelog')
 
@@ -59,7 +60,7 @@ describe('chaas', () => {
         expect.objectContaining(checkRunSuccess)
       )
     })
-    test('Run a neutral suite request (changelog not found)', async () => {
+    test('Run a failed suite request (changelog not found)', async () => {
       nock('https://api.github.com')
         .post('/app/installations/2/access_tokens')
         .reply(200, { token: 'test' })
@@ -72,15 +73,15 @@ describe('chaas', () => {
       await app.receive({ name: 'check_suite', payload: checkSuitePayload })
 
       expect(github.checks.create).toBeCalledWith(
-        expect.objectContaining(checkRunNeutral)
+        expect.objectContaining(checkRunFailed)
       )
     })
   })
 
   describe('with .chaas.yml config', () => {
-    test('all files in commit ignored then should return NEUTRAL.', async () => {
+    test('Run a neutral suite request (all files changed are ignored)', async () => {
       github.repos.getContent = jest.fn().mockReturnValueOnce(
-        Promise.resolve({ data: { content: Buffer.from('ignore: ["*.js", "*.md"]', 'binary').toString('base64') } })
+        Promise.resolve({ data: { content: Buffer.from('ignore: ["**/*.js"]', 'binary').toString('base64') } })
       )
 
       nock('https://api.github.com')
@@ -88,7 +89,7 @@ describe('chaas', () => {
         .reply(200, { token: 'test' })
 
       github.repos.getCommit = jest.fn().mockReturnValueOnce(
-        Promise.resolve({ data: commitWithChangelog })
+        Promise.resolve({ data: commitWithoutChangelog })
       )
 
       // Receive a webhook event
