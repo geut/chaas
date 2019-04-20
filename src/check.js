@@ -35,7 +35,7 @@ async function check (context) {
     commit = await context.github.repos.getCommit({
       owner: owner.login,
       repo: name,
-      sha: id
+      commit_sha: id
     })
   } catch (err) {
     context.log({ err })
