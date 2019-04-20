@@ -7,18 +7,18 @@ const VALID_STATUS = ['added', 'modified']
 
 const SUCCESS = 'success'
 const NEUTRAL = 'neutral'
-const FAILED = 'failed'
+const FAILURE = 'failure'
 
 const SUMMARY = {
   [SUCCESS]: ':+1: Great! A CHANGELOG file has been found and it has been updated',
   [NEUTRAL]: 'Your PR only contains ignored files. No CHANGELOG change required.',
-  [FAILED]: ':warning: Oh oh. We could not found any updated CHANGELOG entries.'
+  [FAILURE]: ':warning: Oh oh. We could not found any updated CHANGELOG entries.'
 }
 
 const MESSAGE = {
   [SUCCESS]: 'No further action is required.',
   [NEUTRAL]: 'No further action is required.',
-  [FAILED]: 'Modify your CHANGELOG file accordingly to introduced changes.'
+  [FAILURE]: 'Modify your CHANGELOG file accordingly to introduced changes.'
 }
 
 async function check (context) {
@@ -70,7 +70,7 @@ function processCommit ({ commit, config: { ignore } }) {
   if (!filtered.length) return NEUTRAL
 
   const hasChangelog = files.find(({ filename }) => filename.toLowerCase() === CHANGELOG)
-  return hasChangelog && VALID_STATUS.includes(hasChangelog.status) ? SUCCESS : FAILED
+  return hasChangelog && VALID_STATUS.includes(hasChangelog.status) ? SUCCESS : FAILURE
 }
 
 // Exports

@@ -1,0 +1,12 @@
+{
+  "name": "Chaas by GEUT",
+  "head_branch": "hiimbex-patch-46",
+  "head_sha": "50e5628cda538bcbb6f3fec3edebe4bb5afb3891",
+  "status": "completed",
+  "conclusion": "success",
+  "output": {
+    "title": "Chaas Check",
+    "summary": ":+1: Great! A CHANGELOG file has been found and it has been updated",
+    "text": "No further action is required."
+  }
+}

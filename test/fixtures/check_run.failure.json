@@ -3,7 +3,7 @@
   "head_branch": "hiimbex-patch-46",
   "head_sha": "50e5628cda538bcbb6f3fec3edebe4bb5afb3891",
   "status": "completed",
-  "conclusion": "failed",
+  "conclusion": "failure",
   "output": {
     "title": "Chaas Check",
     "summary": ":warning: Oh oh. We could not found any updated CHANGELOG entries.",

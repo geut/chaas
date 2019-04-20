@@ -6,7 +6,7 @@ const { Application } = require('probot')
 const checkSuitePayload = require('./fixtures/check_suite.requested')
 const checkRunSuccess = require('./fixtures/check_run.created')
 const checkRunNeutral = require('./fixtures/check_run.neutral')
-const checkRunFailed = require('./fixtures/check_run.failed')
+const checkRunFailure = require('./fixtures/check_run.failure')
 const commitWithChangelog = require('./fixtures/commit_with_changelog')
 const commitWithoutChangelog = require('./fixtures/commit_without_changelog')
 
@@ -73,7 +73,7 @@ describe('chaas', () => {
       await app.receive({ name: 'check_suite', payload: checkSuitePayload })
 
       expect(github.checks.create).toBeCalledWith(
-        expect.objectContaining(checkRunFailed)
+        expect.objectContaining(checkRunFailure)
       )
     })
   })
