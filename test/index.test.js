@@ -39,7 +39,7 @@ describe('chaas', () => {
       const error = new Error('Not Found')
       error.code = 404
 
-      github.repos.getContent = jest.fn().mockReturnValueOnce(
+      github.repos.getContents = jest.fn().mockReturnValueOnce(
         Promise.reject(error)
       )
     })
@@ -80,7 +80,7 @@ describe('chaas', () => {
 
   describe('with .chaas.yml config', () => {
     test('Run a neutral suite request (all files changed are ignored)', async () => {
-      github.repos.getContent = jest.fn().mockReturnValueOnce(
+      github.repos.getContents = jest.fn().mockReturnValueOnce(
         Promise.resolve({ data: { content: Buffer.from('ignore: ["**/*.js"]', 'binary').toString('base64') } })
       )
 

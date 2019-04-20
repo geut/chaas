@@ -11,7 +11,7 @@ async function config (context) {
   const params = context.repo({ path: path.posix.join('.', CONFIG_FILE) })
 
   try {
-    const res = await context.github.repos.getContent(params)
+    const res = await context.github.repos.getContents(params)
     const config = yaml.safeLoad(Buffer.from(res.data.content, 'base64').toString()) || {}
 
     return Object.assign({}, defaultConfig, config)
