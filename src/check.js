@@ -23,7 +23,8 @@ const MESSAGE = {
 
 async function check (context) {
   const config = await getConfig(context)
-  const { owner, repo, number, pull_number} = context.issue()
+  /* eslint-disable camelcase */
+  const { owner, repo, number, pull_number } = context.issue()
   let files
 
   try {
