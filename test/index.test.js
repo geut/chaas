@@ -49,7 +49,7 @@ describe('chaas', () => {
   describe('With no .chaas.yml configuration file', () => {
     beforeEach(() => {
       const error = new Error('Not Found')
-      error.code = 404
+      error.status = 404
       github.repos.getContents.mockImplementation(({ path }) => path.endsWith('.chaas.yml') ? Promise.reject(error) : null)
     })
 

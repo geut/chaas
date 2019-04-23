@@ -16,7 +16,7 @@ async function getConfig (context) {
 
     return Object.assign({}, defaultConfig, config)
   } catch (err) {
-    if (err.code === 404) {
+    if (err.status === 404) {
       return defaultConfig
     } else {
       throw err
