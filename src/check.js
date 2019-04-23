@@ -28,11 +28,11 @@ async function check (context) {
   let files
 
   try {
-    files = await context.github.pulls.listFiles({
+    ({ data: files } = await context.github.pulls.listFiles({
       owner,
       repo,
       pull_number: pull_number || number
-    })
+    }))
   } catch (error) {
     context.log(error)
   }

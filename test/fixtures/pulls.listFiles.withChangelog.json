@@ -1,38 +1,41 @@
-[
-  {
-    "sha": "bd97488d29849e537fa638c4922421e22b30e84f",
-    "filename": "index.js",
-    "status": "modified",
-    "additions": 1,
-    "deletions": 0,
-    "changes": 1,
-    "blob_url": "https://github.com/geut/lerna-travis-demo/blob/4327de0482693fce8357221aa3e61c6a2bf8a60d/index.js",
-    "raw_url": "https://github.com/geut/lerna-travis-demo/raw/4327de0482693fce8357221aa3e61c6a2bf8a60d/index.js",
-    "contents_url": "https://api.github.com/repos/geut/lerna-travis-demo/contents/index.js?ref=4327de0482693fce8357221aa3e61c6a2bf8a60d",
-    "patch": "@@ -2,4 +2,5 @@ const foo = require('@geut/foo')\n \n console.log('geut: baz')\n console.log('geut: code with opinions')\n+// run foo! run\n foo()"
-  },
-  {
-    "sha": "bd97488d29849e537fa638c4922421e22b30e84f",
-    "filename": "packages/baz/index.js",
-    "status": "modified",
-    "additions": 1,
-    "deletions": 0,
-    "changes": 1,
-    "blob_url": "https://github.com/geut/lerna-travis-demo/blob/4327de0482693fce8357221aa3e61c6a2bf8a60d/packages/baz/index.js",
-    "raw_url": "https://github.com/geut/lerna-travis-demo/raw/4327de0482693fce8357221aa3e61c6a2bf8a60d/packages/baz/index.js",
-    "contents_url": "https://api.github.com/repos/geut/lerna-travis-demo/contents/packages/baz/index.js?ref=4327de0482693fce8357221aa3e61c6a2bf8a60d",
-    "patch": "@@ -2,4 +2,5 @@ const foo = require('@geut/foo')\n \n console.log('geut: baz')\n console.log('geut: code with opinions')\n+// run foo! run\n foo()"
-  },    
-  {
-    "sha": "42c30493ed5fb9342f641ceb0aad73f8cc0c3f7e",
-    "filename": "CHANGELOG.md",
-    "status": "modified",
-    "additions": 2,
-    "deletions": 0,
-    "changes": 2,
-    "blob_url": "https://github.com/geut/lerna-travis-demo/blob/09cfdadb97113c80ffd60c43af90da049a626a05/CHANGELOG.md",
-    "raw_url": "https://github.com/geut/lerna-travis-demo/raw/09cfdadb97113c80ffd60c43af90da049a626a05/CHANGELOG.md",
-    "contents_url": "https://api.github.com/repos/geut/lerna-travis-demo/contents/CHANGELOG.md?ref=09cfdadb97113c80ffd60c43af90da049a626a05",
-    "patch": "@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)\n and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).\n \n ## [Unreleased]\n+### Added\n+- touch: this is just a test. Trying something else. :eyes:\n \n ## [0.0.1-beta.4] - 2018-11-08\n ### Added"
-  }
-]
+{
+  "status": 200,
+  "data": [
+    {
+      "sha": "bd97488d29849e537fa638c4922421e22b30e84f",
+      "filename": "index.js",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/geut/lerna-travis-demo/blob/4327de0482693fce8357221aa3e61c6a2bf8a60d/index.js",
+      "raw_url": "https://github.com/geut/lerna-travis-demo/raw/4327de0482693fce8357221aa3e61c6a2bf8a60d/index.js",
+      "contents_url": "https://api.github.com/repos/geut/lerna-travis-demo/contents/index.js?ref=4327de0482693fce8357221aa3e61c6a2bf8a60d",
+      "patch": "@@ -2,4 +2,5 @@ const foo = require('@geut/foo')\n \n console.log('geut: baz')\n console.log('geut: code with opinions')\n+// run foo! run\n foo()"
+    },
+    {
+      "sha": "bd97488d29849e537fa638c4922421e22b30e84f",
+      "filename": "packages/baz/index.js",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/geut/lerna-travis-demo/blob/4327de0482693fce8357221aa3e61c6a2bf8a60d/packages/baz/index.js",
+      "raw_url": "https://github.com/geut/lerna-travis-demo/raw/4327de0482693fce8357221aa3e61c6a2bf8a60d/packages/baz/index.js",
+      "contents_url": "https://api.github.com/repos/geut/lerna-travis-demo/contents/packages/baz/index.js?ref=4327de0482693fce8357221aa3e61c6a2bf8a60d",
+      "patch": "@@ -2,4 +2,5 @@ const foo = require('@geut/foo')\n \n console.log('geut: baz')\n console.log('geut: code with opinions')\n+// run foo! run\n foo()"
+    },    
+    {
+      "sha": "42c30493ed5fb9342f641ceb0aad73f8cc0c3f7e",
+      "filename": "CHANGELOG.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0,
+      "changes": 2,
+      "blob_url": "https://github.com/geut/lerna-travis-demo/blob/09cfdadb97113c80ffd60c43af90da049a626a05/CHANGELOG.md",
+      "raw_url": "https://github.com/geut/lerna-travis-demo/raw/09cfdadb97113c80ffd60c43af90da049a626a05/CHANGELOG.md",
+      "contents_url": "https://api.github.com/repos/geut/lerna-travis-demo/contents/CHANGELOG.md?ref=09cfdadb97113c80ffd60c43af90da049a626a05",
+      "patch": "@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)\n and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).\n \n ## [Unreleased]\n+### Added\n+- touch: this is just a test. Trying something else. :eyes:\n \n ## [0.0.1-beta.4] - 2018-11-08\n ### Added"
+    }
+  ]
+}

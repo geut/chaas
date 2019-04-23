@@ -1,4 +1,6 @@
-[
+{
+  "status": 200,
+  "data": [
     {
       "sha": "bd97488d29849e537fa638c4922421e22b30e84f",
       "filename": "index.js",
@@ -24,4 +26,5 @@
       "patch": "@@ -2,4 +2,5 @@ const foo = require('@geut/foo')\n \n console.log('geut: baz')\n console.log('geut: code with opinions')\n+// run foo! run\n foo()"
     }
   ]
+}
   
