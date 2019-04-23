@@ -24,6 +24,7 @@ const MESSAGE = {
 async function check (context) {
   const config = await getConfig(context)
   /* eslint-disable camelcase */
+  const { sha: head_sha } = context.payload.pull_request.head
   const { owner, repo, number, pull_number } = context.issue()
   let files
 
@@ -44,6 +45,7 @@ async function check (context) {
   return context.github.checks.create(context.repo({
     name: 'Chaas by GEUT',
     status: 'completed',
+    head_sha,
     conclusion: result,
     completed_at: new Date(),
     output: {
