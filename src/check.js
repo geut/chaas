@@ -23,10 +23,15 @@ const MESSAGE = {
 
 async function check (context) {
   const config = await getConfig(context)
+  const { owner, repo, number} = context.issue()
   let files
 
   try {
-    files = await context.github.pulls.listFiles(context.issue())
+    files = await context.github.pulls.listFiles({
+      owner,
+      repo,
+      pull_number: number
+    })
   } catch (error) {
     context.log(error)
   }
