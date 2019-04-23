@@ -7,7 +7,7 @@ const defaultConfig = {
   ignore: []
 }
 
-async function config (context) {
+async function getConfig (context) {
   const params = context.repo({ path: path.posix.join('.', CONFIG_FILE) })
 
   try {
@@ -25,6 +25,6 @@ async function config (context) {
 }
 
 module.exports = {
-  config,
+  getConfig,
   CONFIG_FILE
 }
