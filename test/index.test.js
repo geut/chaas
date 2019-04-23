@@ -1,14 +1,20 @@
 const nock = require('nock')
+
 // Requiring our app implementation
 const myProbotApp = require('../src')
 const { Application } = require('probot')
-// Requiring our fixtures
-const checkSuitePayload = require('./fixtures/check_suite.requested')
+
+// Requiring Fixtures
+// WebHook Events
+const pullRequestOpened = require('./fixtures/pull_request.opened')
+const pullRequestSynchronize = require('./fixtures/pull_request.synchronize')
+// octokit githut.pulls.listFiles
+const pullsListFilesWithChangelog = require('./fixtures/pulls.listFiles.withChangelog')
+const pullsListFilesWithoutChangelog = require('./fixtures/pulls.listFiles.withoutChangelog')
+// Check Responses
 const checkRunSuccess = require('./fixtures/check_run.created')
 const checkRunNeutral = require('./fixtures/check_run.neutral')
 const checkRunFailure = require('./fixtures/check_run.failure')
-const commitWithChangelog = require('./fixtures/commit_with_changelog')
-const commitWithoutChangelog = require('./fixtures/commit_without_changelog')
 
 nock.disableNetConnect()
 
@@ -21,56 +27,74 @@ describe('chaas', () => {
     // Load our app into probot
     app.load(myProbotApp)
 
-    // just return a test token
-    // app.app = () => 'test'
     github = {
-      // Basic mocks, so we can perform `.not.toHaveBeenCalled()` assertions
+      pulls: {
+        listFiles: jest.fn()
+      },
       repos: {
+        getContents: jest.fn()
       },
       checks: {
         create: jest.fn()
       }
     }
+
     app.auth = () => Promise.resolve(github)
+
+    nock('https://api.github.com')
+      .post('/app/installations/2/access_tokens')
+      .reply(200, { token: 'test' })
   })
 
-  describe('with default configuration', () => {
+  describe('With no .chaas.yml configuration file', () => {
     beforeEach(() => {
       const error = new Error('Not Found')
       error.code = 404
-
-      github.repos.getContents = jest.fn().mockReturnValueOnce(
-        Promise.reject(error)
-      )
+      github.repos.getContents.mockImplementation(({ path }) => path.endsWith('.chaas.yml') ? Promise.reject(error) : null)
     })
 
-    test('Run a successful suite run request (gets the changelog and validates status)', async () => {
-      nock('https://api.github.com')
-        .post('/app/installations/2/access_tokens')
-        .reply(200, { token: 'test' })
+    test('Run a successful check on a pull request opened (changelog found)', async () => {
+      // Retrieve PR files with Changelog
+      github.pulls.listFiles.mockReturnValueOnce(pullsListFilesWithChangelog)
 
-      github.repos.getCommit = jest.fn().mockReturnValueOnce(
-        Promise.resolve({ data: commitWithChangelog })
-      )
-
-      // Receive a webhook event
-      await app.receive({ name: 'check_suite', payload: checkSuitePayload })
+      // Receive a webhook event pull_request.opened
+      await app.receive({ name: 'pull_request', payload: pullRequestOpened })
 
       expect(github.checks.create).toBeCalledWith(
         expect.objectContaining(checkRunSuccess)
       )
     })
-    test('Run a failed suite request (changelog not found)', async () => {
-      nock('https://api.github.com')
-        .post('/app/installations/2/access_tokens')
-        .reply(200, { token: 'test' })
 
-      github.repos.getCommit = jest.fn().mockReturnValueOnce(
-        Promise.resolve({ data: commitWithoutChangelog })
+    test('Run a successful check on a pull request synchronize (changelog found)', async () => {
+      // Retrieve PR files with Changelog
+      github.pulls.listFiles.mockReturnValueOnce(pullsListFilesWithChangelog)
+
+      // Receive a webhook event pull_request.synchronize
+      await app.receive({ name: 'pull_request', payload: pullRequestSynchronize })
+
+      expect(github.checks.create).toBeCalledWith(
+        expect.objectContaining(checkRunSuccess)
       )
+    })
 
-      // Receive a webhook event
-      await app.receive({ name: 'check_suite', payload: checkSuitePayload })
+    test('Run a failed check on a pull request opened (changelog not found)', async () => {
+      // Retrieve PR files without Changelog
+      github.pulls.listFiles.mockReturnValueOnce(pullsListFilesWithoutChangelog)
+
+      // Receive a webhook event pull_request.opened
+      await app.receive({ name: 'pull_request', payload: pullRequestOpened })
+
+      expect(github.checks.create).toBeCalledWith(
+        expect.objectContaining(checkRunFailure)
+      )
+    })
+
+    test('Run a failed check on a pull request synchronize (changelog not found)', async () => {
+      // Retrieve PR files without Changelog
+      github.pulls.listFiles.mockReturnValueOnce(pullsListFilesWithoutChangelog)
+
+      // Receive a webhook event pull_request.synchronize
+      await app.receive({ name: 'pull_request', payload: pullRequestSynchronize })
 
       expect(github.checks.create).toBeCalledWith(
         expect.objectContaining(checkRunFailure)
@@ -78,22 +102,30 @@ describe('chaas', () => {
     })
   })
 
-  describe('with .chaas.yml config', () => {
-    test('Run a neutral suite request (all files changed are ignored)', async () => {
-      github.repos.getContents = jest.fn().mockReturnValueOnce(
-        Promise.resolve({ data: { content: Buffer.from('ignore: ["**/*.js"]', 'binary').toString('base64') } })
+  describe('With .chaas.yml configuration ignore: ["**/*.js"]', () => {
+    beforeEach(() => {
+      const response = { data: { content: Buffer.from('ignore: ["**/*.js"]', 'binary').toString('base64') } }
+      github.repos.getContents.mockImplementation(({ path }) => path.endsWith('.chaas.yml') ? Promise.resolve(response) : null)
+    })
+
+    test('Run a failed check on a pull request opened (all files changed are ignored)', async () => {
+      // Retrieve PR files without Changelog
+      github.pulls.listFiles.mockReturnValue(pullsListFilesWithoutChangelog)
+
+      // Receive a webhook event pull_request.opened
+      await app.receive({ name: 'pull_request', payload: pullRequestOpened })
+
+      expect(github.checks.create).toBeCalledWith(
+        expect.objectContaining(checkRunNeutral)
       )
+    })
 
-      nock('https://api.github.com')
-        .post('/app/installations/2/access_tokens')
-        .reply(200, { token: 'test' })
+    test('Run a failed check on a pull request synchronize (all files changed are ignored)', async () => {
+      // Retrieve PR files without Changelog
+      github.pulls.listFiles.mockReturnValue(pullsListFilesWithoutChangelog)
 
-      github.repos.getCommit = jest.fn().mockReturnValueOnce(
-        Promise.resolve({ data: commitWithoutChangelog })
-      )
-
-      // Receive a webhook event
-      await app.receive({ name: 'check_suite', payload: checkSuitePayload })
+      // Receive a webhook event pull_request.synchronize
+      await app.receive({ name: 'pull_request', payload: pullRequestSynchronize })
 
       expect(github.checks.create).toBeCalledWith(
         expect.objectContaining(checkRunNeutral)

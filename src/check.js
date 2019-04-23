@@ -1,4 +1,4 @@
-const { config } = require('./config')
+const { getConfig } = require('./config')
 const multimatch = require('multimatch')
 
 const CHANGELOG = 'changelog.md'
@@ -22,32 +22,21 @@ const MESSAGE = {
 }
 
 async function check (context) {
-  const cfg = await config(context)
-  /* eslint-disable camelcase */
-  const { head_branch, head_sha, head_commit: { id } = {} } = context.payload.check_suite
-  const { name, owner } = context.payload.repository
-  let commit
-
-  // Probot API note: context.repo() => {username: 'hiimbex', repo: 'testing-things'}
-  if (!id) return
+  const config = await getConfig(context)
+  let files
 
   try {
-    commit = await context.github.repos.getCommit({
-      owner: owner.login,
-      repo: name,
-      commit_sha: id
-    })
-  } catch (err) {
-    context.log({ err })
-    return
+    files = await context.github.pulls.listFiles(context.issue())
+  } catch (error) {
+    context.log(error)
   }
 
-  const result = processCommit({ config: cfg, commit })
+  if (!files) return
+
+  const result = await process({ files, config })
 
   return context.github.checks.create(context.repo({
     name: 'Chaas by GEUT',
-    head_branch,
-    head_sha,
     status: 'completed',
     conclusion: result,
     completed_at: new Date(),
@@ -59,9 +48,7 @@ async function check (context) {
   }))
 }
 
-function processCommit ({ commit, config: { ignore } }) {
-  const { files } = commit.data
-
+async function process ({ files, config: { ignore } }) {
   const filtered = multimatch(
     files.map(f => f.filename),
     ['**', ...ignore.map(i => `!${i}`)]
