@@ -38,7 +38,7 @@ async function check (context) {
     context.log(error)
   }
 
-  if (!files) return
+  if (!files || shouldSkip({ context, config })) return
 
   const result = await process({ files, config })
 
@@ -54,6 +54,10 @@ async function check (context) {
       text: MESSAGE[result]
     }
   }))
+}
+
+function shouldSkip ({ context, config: { branches } }) {
+  return !branches.includes(context.payload.pull_request.base.ref)
 }
 
 async function process ({ files, config: { ignore } }) {
