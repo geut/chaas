@@ -108,7 +108,7 @@ describe('chaas', () => {
       github.repos.getContents.mockImplementation(({ path }) => path.endsWith('.chaas.yml') ? Promise.resolve(response) : null)
     })
 
-    test('Run a failed check on a pull request opened (all files changed are ignored)', async () => {
+    test('Run a neutral check on a pull request opened (all files changed are ignored)', async () => {
       // Retrieve PR files without Changelog
       github.pulls.listFiles.mockReturnValue(pullsListFilesWithoutChangelog)
 
@@ -120,7 +120,7 @@ describe('chaas', () => {
       )
     })
 
-    test('Run a failed check on a pull request synchronize (all files changed are ignored)', async () => {
+    test('Run a neutral check on a pull request synchronize (all files changed are ignored)', async () => {
       // Retrieve PR files without Changelog
       github.pulls.listFiles.mockReturnValue(pullsListFilesWithoutChangelog)
 
