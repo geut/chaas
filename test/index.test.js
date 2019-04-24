@@ -132,4 +132,31 @@ describe('chaas', () => {
       )
     })
   })
+
+  describe('With .chaas.yml configuration branches: ["not-current"]', () => {
+    beforeEach(() => {
+      const response = { data: { content: Buffer.from('branches: ["not-current"]', 'binary').toString('base64') } }
+      github.repos.getContents.mockImplementation(({ path }) => path.endsWith('.chaas.yml') ? Promise.resolve(response) : null)
+    })
+
+    test('Skips checks if pull request opened against a not configured branch', async () => {
+      // Retrieve PR files without Changelog
+      github.pulls.listFiles.mockReturnValue(pullsListFilesWithoutChangelog)
+
+      // Receive a webhook event pull_request.opened
+      await app.receive({ name: 'pull_request', payload: pullRequestOpened })
+
+      expect(github.checks.create).not.toHaveBeenCalled()
+    })
+
+    test('Skips checks if pull request synchronized against a not configured branch', async () => {
+      // Retrieve PR files without Changelog
+      github.pulls.listFiles.mockReturnValue(pullsListFilesWithoutChangelog)
+
+      // Receive a webhook event pull_request.opened
+      await app.receive({ name: 'pull_request', payload: pullRequestOpened })
+
+      expect(github.checks.create).not.toHaveBeenCalled()
+    })
+  })
 })
